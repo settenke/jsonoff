@@ -53,6 +53,7 @@ function connect() {
 
 function onConnect() {
   console.log('onConnect');
+  document.getElementById('connectbox').style.display = 'none';
   client.subscribe('/jsonoff/lamp');
 }
 
