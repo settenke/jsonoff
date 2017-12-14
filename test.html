@@ -103,7 +103,7 @@
        
         message = new Paho.MQTT.Message(state);
         message.destinationName = "/jsonoff/lamp";
-        message.retained = True;
+        message.retained = true;
         client.send(message);
       }
       
