@@ -50,11 +50,39 @@
 
     <script>
       var state = 'OFF';
+      var client;
+      
+      function getUrlParameter(name) {
+          name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+          var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+          var results = regex.exec(location.search);
+          return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+      }
+      
+      function connect() {
+        client = mqtt.connect({
+          host: 'wss://m23.cloudmqtt.com',
+          port: '30392',
+          username: getUrlParameter('username'),
+          password: getUrlParameter('password')
+        });
+      }
       
       function toggleLamp() {
         state = state === 'ON' ? 'OFF' : 'ON';
         document.getElementsByClassName('fa-lightbulb')[0].setAttribute('data-prefix', (state === 'ON' ? 'far' : 'fas'));
       }
+      
+      client.subscribe("mqtt/demo")
+
+      client.on("message", function (topic, payload) {
+        console.log([topic, payload].join(": "))
+        client.end()
+      })
+
+      client.publish("mqtt/demo", "hello world!")
+      
+      
     </script>
   </body>
 </html>
