@@ -77,9 +77,9 @@
       
       function onConnect() {
         console.log("onConnect");
-        client.subscribe("/cloudmqtt");
-        message = new Paho.MQTT.Message("Hello CloudMQTT");
-        message.destinationName = "/cloudmqtt";
+        client.subscribe("/jsonoff/lamp");
+        message = new Paho.MQTT.Message("ON");
+        message.destinationName = "/jsonoff/lamp";
         client.send(message);
       }
 
