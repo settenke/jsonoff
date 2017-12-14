@@ -69,7 +69,8 @@
           userName: getUrlParameter('username'),
           password: getUrlParameter('password'),
           onSuccess:onConnect,
-          onFailure:doFail
+          onFailure:doFail,
+          retain: True
         }
         
         client.connect(options);
@@ -78,9 +79,6 @@
       function onConnect() {
         console.log("onConnect");
         client.subscribe("/jsonoff/lamp");
-        message = new Paho.MQTT.Message("ON");
-        message.destinationName = "/jsonoff/lamp";
-        client.send(message);
       }
 
       function doFail(e){
@@ -97,14 +95,21 @@
       // called when a message arrives
       function onMessageArrived(message) {
         console.log("onMessageArrived:"+message.payloadString);
+        document.getElementsByClassName('fa-lightbulb')[0].setAttribute('data-prefix', (message.payloadString === 'ON' ? 'far' : 'fas'));
       }
       
       
       function toggleLamp() {
         state = state === 'ON' ? 'OFF' : 'ON';
-        document.getElementsByClassName('fa-lightbulb')[0].setAttribute('data-prefix', (state === 'ON' ? 'far' : 'fas'));
+       
+        message = new Paho.MQTT.Message(state);
+        message.destinationName = "/jsonoff/lamp";
+        client.send(message);
       }
       
+      document.addEventListener("DOMContentLoaded", function(event) {
+        connect();
+      });
       
     </script>
   </body>
