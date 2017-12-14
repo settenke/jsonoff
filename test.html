@@ -52,8 +52,8 @@
       var state = 'OFF';
       
       function toggleLamp() {
-        state = state === 'ON' ? 'ON' : 'OFF';
-        document.getElementsByClassName('fa-lightbulb')[0].setAttribute('data-prefix', (state === 'ON' ? 'fas' : 'far'));
+        state = state === 'ON' ? 'OFF' : 'ON';
+        document.getElementsByClassName('fa-lightbulb')[0].setAttribute('data-prefix', (state === 'ON' ? 'far' : 'fas'));
       }
     </script>
   </body>
