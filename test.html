@@ -73,15 +73,6 @@
         document.getElementsByClassName('fa-lightbulb')[0].setAttribute('data-prefix', (state === 'ON' ? 'far' : 'fas'));
       }
       
-      client.subscribe("mqtt/demo")
-
-      client.on("message", function (topic, payload) {
-        console.log([topic, payload].join(": "))
-        client.end()
-      })
-
-      client.publish("mqtt/demo", "hello world!")
-      
       
     </script>
   </body>
