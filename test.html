@@ -31,7 +31,7 @@
       <h2 class="project-tagline">Simple Dashboard for MQTT relays</h2>
       
         <a href="https://github.com/settenke/jsonoff" class="btn">View on GitHub</a>
-        <a href="#" class="btn"><i class="fas fa-lightbulb"></i>Toggle lamp</a>
+        <a href="javascript:toggleLamp()" class="btn"><i class="fas fa-lightbulb"></i> Toggle lamp</a>
       
       
     </section>
@@ -48,6 +48,13 @@
       </footer>
     </section>
 
-    
+    <script>
+      var state = 'OFF';
+      
+      function toggleLamp() {
+        state = state === 'ON' ? 'ON' : 'OFF';
+        document.getElementsByClassName('fa-lightbulb')[0].setAttribute('data-prefix', (state === 'ON' ? 'fas' : 'far'));
+      }
+    </script>
   </body>
 </html>
