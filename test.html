@@ -69,8 +69,7 @@
           userName: getUrlParameter('username'),
           password: getUrlParameter('password'),
           onSuccess:onConnect,
-          onFailure:doFail,
-          retain: True
+          onFailure:doFail
         }
         
         client.connect(options);
@@ -104,6 +103,7 @@
        
         message = new Paho.MQTT.Message(state);
         message.destinationName = "/jsonoff/lamp";
+        message.retained = True;
         client.send(message);
       }
       
