@@ -64,6 +64,16 @@
           username: getUrlParameter('username'),
           password: getUrlParameter('password')
         });
+        console.log(client);
+        
+        client.subscribe("mqtt/test");
+        
+        client.on("message", function(topic, payload) {
+          alert([topic, payload].join(": "));
+          client.end();
+        });
+
+        client.publish("mqtt/test", "testing...");
       }
       
       function toggleLamp() {
