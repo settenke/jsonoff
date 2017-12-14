@@ -6,7 +6,7 @@ Simple MQTT relay dashboard for CloudMQTT broker with one button. :)
   - Add password
   - Magic
 
- Go to dashboard: https://settenke.github.io/jsonoff/dashboard
+[Go to dashboard](https://settenke.github.io/jsonoff/dashboard)
 
 # How to work
 
