@@ -64,10 +64,19 @@
       
       function showNotification(message) {
         iziToast.show({
+          id: 'jsonotif'
           title: 'Huston!',
           message: 'We have a problem: ' + message,
           position: 'topCenter',
-          timeout: false
+          timeout: false,
+          theme: 'dark',
+          transitionIn: 'flipInX',
+          transitionOut: 'flipOutX',
+          progressBarColor: 'rgb(0, 255, 184)',
+          image: '/lightbulb.jpg',
+          imageWidth: 70,
+          layout: 2,
+          iconColor: 'rgb(0, 255, 184)'
         });
       }
       
