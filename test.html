@@ -60,9 +60,7 @@
       }
       
       function connect() {
-        client = mqtt.connect({
-          host: 'wss://m23.cloudmqtt.com',
-          port: '30392',
+        client = mqtt.connect('wss://m23.cloudmqtt.com:30392', {
           username: getUrlParameter('username'),
           password: getUrlParameter('password')
         });
