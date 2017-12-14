@@ -17,7 +17,7 @@
 {"name":"jsonoff","description":"Simple Dashboard for MQTT relays","author":null,"@type":"WebSite","url":"https://settenke.github.io/jsonoff/","image":null,"publisher":null,"headline":"jsonoff","dateModified":null,"datePublished":null,"sameAs":null,"mainEntityOfPage":null,"@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <script defer src="https://use.fontawesome.com/releases/v5.0.1/js/all.js"></script>
-<script src="https://unpkg.com/mqtt@2.15.0/dist/mqtt.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>
 
     <meta name="description" content="Simple Dashboard for MQTT relays"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -48,7 +48,7 @@
       </footer>
     </section>
 
-    <script>
+    <script type="text/javascript">
       var state = 'OFF';
       var client;
       
@@ -60,21 +60,45 @@
       }
       
       function connect() {
-        client = mqtt.connect('wss://m23.cloudmqtt.com:30392', {
-          username: getUrlParameter('username'),
-          password: getUrlParameter('password')
-        });
-        console.log(client);
-        
-        client.subscribe("mqtt/test");
-        
-        client.on("message", function(topic, payload) {
-          alert([topic, payload].join(": "));
-          client.end();
-        });
+        client = new Paho.MQTT.Client("m23.cloudmqtt.com", 30392, "web_" + parseInt(Math.random() * 100, 10));
 
-        client.publish("mqtt/test", "testing...");
+        client.onConnectionLost = onConnectionLost;
+        client.onMessageArrived = onMessageArrived;
+        var options = {
+          useSSL: true,
+          userName: getUrlParameter('username'),
+          password: getUrlParameter('password'),
+          onSuccess:onConnect,
+          onFailure:doFail
+        }
+        
+        client.connect(options);
       }
+      
+      function onConnect() {
+        console.log("onConnect");
+        client.subscribe("/cloudmqtt");
+        message = new Paho.MQTT.Message("Hello CloudMQTT");
+        message.destinationName = "/cloudmqtt";
+        client.send(message);
+      }
+
+      function doFail(e){
+        console.log(e);
+      }
+
+      // called when the client loses its connection
+      function onConnectionLost(responseObject) {
+        if (responseObject.errorCode !== 0) {
+          console.log("onConnectionLost:"+responseObject.errorMessage);
+        }
+      }
+
+      // called when a message arrives
+      function onMessageArrived(message) {
+        console.log("onMessageArrived:"+message.payloadString);
+      }
+      
       
       function toggleLamp() {
         state = state === 'ON' ? 'OFF' : 'ON';
