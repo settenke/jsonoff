@@ -57,7 +57,7 @@ function onConnect() {
 }
 
 function doFail(e){
-  showNotification(e);
+  showNotification(JSON.stringify(e));
 }
 
 // called when the client loses its connection
