@@ -27,8 +27,16 @@ function showNotification(message) {
   });
 }
 
+
+function goToConnect() {
+    var uname = document.getElementById('uname').value;
+    var upass = document.getElementById('upass').value;
+    
+    window.location.href = '/jsonoff/dashboard?username=' + uname + '&password=' + upass;
+}
+
 function connect() {
-  client = new Paho.MQTT.Client("m23.cloudmqtt.com", 30392, "web_" + parseInt(Math.random() * 100, 10));
+  client = new Paho.MQTT.Client('m23.cloudmqtt.com', 30392, 'web_' + parseInt(Math.random() * 100, 10));
 
   client.onConnectionLost = onConnectionLost;
   client.onMessageArrived = onMessageArrived;
@@ -44,24 +52,24 @@ function connect() {
 }
 
 function onConnect() {
-  console.log("onConnect");
-  client.subscribe("/jsonoff/lamp");
+  console.log('onConnect');
+  client.subscribe('/jsonoff/lamp');
 }
 
 function doFail(e){
-  console.log(e);
+  showNotification(e);
 }
 
 // called when the client loses its connection
 function onConnectionLost(responseObject) {
   if (responseObject.errorCode !== 0) {
-    console.log("onConnectionLost:"+responseObject.errorMessage);
+    showNotification('Connection lost: ' + responseObject.errorMessage);
   }
 }
 
 // called when a message arrives
 function onMessageArrived(message) {
-  console.log("onMessageArrived:"+message.payloadString);
+  console.log('onMessageArrived: ' + message.payloadString);
   document.getElementsByClassName('fa-lightbulb')[0].setAttribute('data-prefix', (message.payloadString === 'ON' ? 'far' : 'fas'));
 }
 
@@ -73,7 +81,7 @@ function toggleLamp() {
     state = state === 'ON' ? 'OFF' : 'ON';
 
     message = new Paho.MQTT.Message(state);
-    message.destinationName = "/jsonoff/lamp";
+    message.destinationName = '/jsonoff/lamp';
     message.retained = true;
     client.send(message);
   }
