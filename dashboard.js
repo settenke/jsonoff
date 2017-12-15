@@ -54,7 +54,7 @@ function connect() {
 function onConnect() {
   console.log('onConnect');
   document.getElementById('connectbox').style.display = 'none';
-  client.subscribe('/jsonoff/lamp');
+  client.subscribe('/jsonoff/lamp/POWER');
 }
 
 function doFail(e){
@@ -83,7 +83,7 @@ function toggleLamp() {
     state = state === 'ON' ? 'OFF' : 'ON';
 
     message = new Paho.MQTT.Message(state);
-    message.destinationName = '/jsonoff/lamp';
+    message.destinationName = '/jsonoff/lamp/cmnd/POWER';
     message.retained = true;
     client.send(message);
   }
